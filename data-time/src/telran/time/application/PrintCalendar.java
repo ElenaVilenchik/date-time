@@ -11,23 +11,23 @@ public class PrintCalendar {
 
 	public static void main(String[] args) {
 
-		int monthYear[];
+		int dayOfWeek_Month_Year[];
 		try {
-			monthYear = getMonthYear(args);
-			printCalendar(monthYear[0], monthYear[1]);
+			dayOfWeek_Month_Year = getFirstWeekDay_Month_Year(args);
+			printCalendar(dayOfWeek_Month_Year[0], dayOfWeek_Month_Year[1], dayOfWeek_Month_Year[2]);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
-	private static void printCalendar(int month, int year) {
+	private static void printCalendar(int month, int year, int firstWeekDay) {
 		printTitle(month, year);
-		printWeekDays();
-		printDates(month, year);
+		printWeekDays(firstWeekDay);
+		printDates(month, year, firstWeekDay);
 	}
 
-	private static void printDates(int month, int year) {
-		int column = getFirstColumn(month, year);
+	private static void printDates(int month, int year, int firstWeekDay) {
+		int column = getFirstColumn(month, year, firstWeekDay);
 		printOffset(column);
 		int nDays = getMonthDays(month, year);
 		int nWeekDays = DayOfWeek.values().length;
@@ -50,15 +50,25 @@ public class PrintCalendar {
 		System.out.printf("%s", " ".repeat(column * 4));
 	}
 
-	private static int getFirstColumn(int month, int year) {
+	private static int getFirstColumn(int month, int year, int firstWeekDay) {
 		LocalDate firstMonthDate = LocalDate.of(year, month, 1);
 		int weekDay = firstMonthDate.getDayOfWeek().getValue();
-		int firstWeekDay = DayOfWeek.values()[0].getValue();
-		return weekDay - firstWeekDay;
+		int res = weekDay - firstWeekDay;
+		return res > 0 ? res : res + 7;
 	}
 
-	private static void printWeekDays() {
+	private static DayOfWeek[] getArrayWeekDays(int firstWeekDay) {
 		DayOfWeek dayWeeks[] = DayOfWeek.values();
+		int nDay = firstWeekDay;
+		for (int i = 0; i < 7; i++) {
+			dayWeeks[i] = DayOfWeek.of(nDay);
+			nDay = nDay < 7 ? ++nDay : 1;
+		}
+		return dayWeeks;
+	}
+
+	private static void printWeekDays(int firstWeekDay) {
+		DayOfWeek dayWeeks[] = getArrayWeekDays(firstWeekDay);
 		System.out.print("  ");
 		for (DayOfWeek weekDay : dayWeeks) {
 			System.out.printf("%s ", weekDay.getDisplayName(TextStyle.SHORT, Locale.getDefault()));
@@ -71,16 +81,28 @@ public class PrintCalendar {
 		System.out.printf("%s, %d\n", monthEn.getDisplayName(TextStyle.SHORT, Locale.getDefault()), year);
 	}
 
-	private static int[] getMonthYear(String[] args) throws Exception {
+	private static int[] getFirstWeekDay_Month_Year(String[] args) throws Exception {
 		LocalDate current = LocalDate.now();
-		int[] res = { current.getMonthValue(), current.getYear() };
+		int[] res = { current.getMonthValue(), current.getYear(), current.getDayOfMonth() };
 		if (args.length > 0) {
 			res[0] = getMonth(args[0]);
 			if (args.length > 1) {
 				res[1] = getYear(args[1]);
+				if (args.length > 2) {
+					res[2] = getFirstDay(args[2]);
+				}
 			}
 		}
 		return res;
+	}
+
+	private static int getFirstDay(String firstDay) throws Exception {
+		try {
+			DayOfWeek day = DayOfWeek.valueOf(firstDay.toUpperCase());
+			return day.getValue();
+		} catch (IllegalArgumentException e) {
+			throw new Exception("day of week should be should be in the range [monday...sunday]");
+		}
 	}
 
 	private static int getYear(String yearStr) throws Exception {
