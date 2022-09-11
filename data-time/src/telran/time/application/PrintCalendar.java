@@ -54,15 +54,15 @@ public class PrintCalendar {
 		LocalDate firstMonthDate = LocalDate.of(year, month, 1);
 		int weekDay = firstMonthDate.getDayOfWeek().getValue();
 		int res = weekDay - firstWeekDay;
-		return res > 0 ? res : res + 7;
+		return res > 0 ? res : res + DayOfWeek.values().length;
 	}
 
 	private static DayOfWeek[] getArrayWeekDays(int firstWeekDay) {
 		DayOfWeek dayWeeks[] = DayOfWeek.values();
 		int nDay = firstWeekDay;
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < dayWeeks.length; i++) {
 			dayWeeks[i] = DayOfWeek.of(nDay);
-			nDay = nDay < 7 ? ++nDay : 1;
+			nDay = nDay < dayWeeks.length ? ++nDay : 1;
 		}
 		return dayWeeks;
 	}
