@@ -54,7 +54,7 @@ public class PrintCalendar {
 		LocalDate firstMonthDate = LocalDate.of(year, month, 1);
 		int weekDay = firstMonthDate.getDayOfWeek().getValue();
 		int res = weekDay - firstWeekDay;
-		return res > 0 ? res : res + DayOfWeek.values().length;
+		return res >= 0 ? res : res + DayOfWeek.values().length;
 	}
 
 	private static DayOfWeek[] getArrayWeekDays(int firstWeekDay) {
@@ -83,7 +83,7 @@ public class PrintCalendar {
 
 	private static int[] getFirstWeekDay_Month_Year(String[] args) throws Exception {
 		LocalDate current = LocalDate.now();
-		int[] res = { current.getMonthValue(), current.getYear(), current.getDayOfMonth() };
+		int[] res = { current.getMonthValue(), current.getYear(), 1 };
 		if (args.length > 0) {
 			res[0] = getMonth(args[0]);
 			if (args.length > 1) {
