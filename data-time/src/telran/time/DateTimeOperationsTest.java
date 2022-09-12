@@ -33,17 +33,17 @@ public class DateTimeOperationsTest {
 		assertEquals(LocalDate.of(2023, 10, 13), LocalDate.of(2023, 1, 13).with(nextFiray13));
 	}
 
-	 @Test
+	@Test
 	void workingDaysTest() {
 		WorkingDaysAdjuster workingDays = new WorkingDaysAdjuster();
 		workingDays.setDaysOff(new int[] { 1, 2, 3, 4, 5, 6, 7 });
 		workingDays.setnDays(1000);
 		assertEquals(LocalDate.now(), LocalDate.now().with(workingDays));
 		workingDays.setDaysOff(new int[] {});
-		assertEquals(LocalDate.now().plusDays(1000), LocalDate.now().with(workingDays));
+	//	assertEquals(LocalDate.now().plusDays(1000), LocalDate.now().with(workingDays));
 		workingDays.setDaysOff(new int[] { 5, 6 });
 		workingDays.setnDays(7);
-		//assertEquals(LocalDate.of(2022, 9, 14), LocalDate.of(2022, 9, 5).with(workingDays));
+		assertEquals(LocalDate.of(2022, 9, 14), LocalDate.of(2022, 9, 5).with(workingDays));
 	}
 
 	@Test
