@@ -11,10 +11,10 @@ public class PrintCalendar {
 
 	public static void main(String[] args) {
 
-		int dayOfWeek_Month_Year[];
+		int dayOfWeekMonthYear[];
 		try {
-			dayOfWeek_Month_Year = getFirstWeekDay_Month_Year(args);
-			printCalendar(dayOfWeek_Month_Year[0], dayOfWeek_Month_Year[1], dayOfWeek_Month_Year[2]);
+			dayOfWeekMonthYear = getFirstWeekDayMonthYear(args);
+			printCalendar(dayOfWeekMonthYear[0], dayOfWeekMonthYear[1], dayOfWeekMonthYear[2]);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -78,10 +78,10 @@ public class PrintCalendar {
 
 	private static void printTitle(int month, int year) {
 		Month monthEn = Month.of(month);
-		System.out.printf("%s, %d\n", monthEn.getDisplayName(TextStyle.SHORT, Locale.getDefault()), year);
+		System.out.printf("%s, %d\n", monthEn.getDisplayName(TextStyle.FULL, Locale.getDefault()), year);
 	}
 
-	private static int[] getFirstWeekDay_Month_Year(String[] args) throws Exception {
+	private static int[] getFirstWeekDayMonthYear(String[] args) throws Exception {
 		LocalDate current = LocalDate.now();
 		int[] res = { current.getMonthValue(), current.getYear(), 1 };
 		if (args.length > 0) {
@@ -101,7 +101,7 @@ public class PrintCalendar {
 			DayOfWeek day = DayOfWeek.valueOf(firstDay.toUpperCase());
 			return day.getValue();
 		} catch (IllegalArgumentException e) {
-			throw new Exception("day of week should be should be in the range [monday...sunday]");
+			throw new Exception("day of week should be in the range [monday...sunday]");
 		}
 	}
 
