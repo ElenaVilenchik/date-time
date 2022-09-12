@@ -11,6 +11,11 @@ public class PrintCalendar {
 
 	public static void main(String[] args) {
 
+		//!!! example
+//		DayOfWeek weekDay = DayOfWeek.valueOf("THURSDAY");
+//		System.out.printf("%s\n", weekDay.getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ru")));
+		
+		
 		int dayOfWeekMonthYear[];
 		try {
 			dayOfWeekMonthYear = getFirstWeekDayMonthYear(args);
@@ -83,7 +88,7 @@ public class PrintCalendar {
 
 	private static int[] getFirstWeekDayMonthYear(String[] args) throws Exception {
 		LocalDate current = LocalDate.now();
-		int[] res = { current.getMonthValue(), current.getYear(), 1 };
+		int[] res = { current.getMonthValue(), current.getYear(), 6 };
 		if (args.length > 0) {
 			res[0] = getMonth(args[0]);
 			if (args.length > 1) {
