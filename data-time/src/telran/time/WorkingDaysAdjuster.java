@@ -117,29 +117,32 @@ public class WorkingDaysAdjuster implements TemporalAdjuster {
 //	}
 //
 //	public WorkingDaysAdjuster() {
+
+
+//public Temporal adjustInto(Temporal temporal) {
+//	if (daysOff == null || daysOff.length == 0) {	// all days are "working"
+//		return temporal.plus(nDays, ChronoUnit.DAYS);
 //	}
-//
-//	public Temporal adjustInto(Temporal temporal) {
-//		if (daysOff == null || daysOff.length == 0) {	// all days are "working"
-//			return temporal.plus(nDays, ChronoUnit.DAYS);
-//		}
-//		if (daysOff.length == 7) {	// all days are "off"
-//			return temporal; // due to test requirement
-//		}
-//		
-//		int workingDaysInWeek = 7 - daysOff.length;
-//		Temporal result = temporal.plus(nDays / workingDaysInWeek, ChronoUnit.WEEKS);
-//		int remainedDays = nDays % workingDaysInWeek; // no more than 5 days 
-//		do {
-//			while(isDayOff(result)) {
-//				result = result.plus(1, ChronoUnit.DAYS);
-//			}
+//	if (daysOff.length == 7) {	// all days are "off"
+//		return temporal; // due to test requirement
+//	}
+//	
+//	int workingDaysInWeek = 7 - daysOff.length;
+//	Temporal result = temporal.plus(nDays / workingDaysInWeek, ChronoUnit.WEEKS);
+//	int remainedDays = nDays % workingDaysInWeek; // no more than 5 days 
+//	
+//	while(isDayOff(result)) {
+//		result = result.plus(1, ChronoUnit.DAYS);
+//	}		
+//	while (remainedDays-- > 0) {
+//		result = result.plus(1, ChronoUnit.DAYS);
+//		while(isDayOff(result)) {
 //			result = result.plus(1, ChronoUnit.DAYS);
-//		}
-//		while(--remainedDays > 0) ;
-//		return result;
-//		
+//		}	
 //	}
+//	return result;
+//	
+//}
 //
 //	// Actually performs n=daysOff.length (from 1 to 6) comparisons 6-n times. 
 //	// This is 1*5 or 2*4 or 3*3 - no more that 9 comparisons totally.
